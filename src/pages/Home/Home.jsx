@@ -1,33 +1,28 @@
 import React, { useEffect, useState } from "react";
 import * as S from "./Home.style";
-import io from "socket.io-client";
 import { Button } from "../../components";
 
-const socket = io.connect("http://localhost:4000", {
-  withCredentials: true,
-  extraHeaders: {
-    "Access-Control-Allow-Origin": "*",
-  },
-});
-
 function Home() {
-  const [connected, setConnected] = useState(false);
+  const socket = new WebSocket("ws://localhost:8080");
+
+  const [connected, setConnected] = useState("");
   //respone
   useEffect(() => {
-    socket.on("connect", () => {
-      setConnected(socket.connected);
+    socket.addEventListener("open", function (event) {
+      setConnected("Connected to server");
     });
   }, []);
 
   useEffect(() => {
-    socket.on("response", (response) => {
-      console.log(response);
-    });
-  }, []);
+    socket.onmessage = function (e) {
+      const obj = e.data;
+      console.log(obj);
+    };
+  }, [socket]);
 
   return (
     <S.Body>
-      {connected === true ? (
+      {connected && connected ? (
         <h3>Succesfully connected to server!</h3>
       ) : (
         <h5>Not connected!</h5>
@@ -36,7 +31,7 @@ function Home() {
       <Button
         color="primary"
         handleClick={() => {
-          socket.emit("gesture", { value: "swipeLeft" });
+          socket.send("swipeLeft");
         }}
       >
         Swipe Left
@@ -44,7 +39,7 @@ function Home() {
       <Button
         color="primary"
         handleClick={() => {
-          socket.emit("gesture", { value: "swipeRight" });
+          socket.send("swipeRight");
         }}
       >
         Swipe Right
@@ -52,7 +47,7 @@ function Home() {
       <Button
         color="primary"
         handleClick={() => {
-          socket.emit("gesture", { value: "swipeUp" });
+          socket.send("swipeUp");
         }}
       >
         Swipe Up
@@ -60,7 +55,7 @@ function Home() {
       <Button
         color="primary"
         handleClick={() => {
-          socket.emit("gesture", { value: "swipeDown" });
+          socket.send("swipeDown");
         }}
       >
         Swipe Down
@@ -69,7 +64,7 @@ function Home() {
       <Button
         color="primary"
         handleClick={() => {
-          socket.emit("gesture", { value: "zoomIn" });
+          socket.send("zoomIn");
         }}
       >
         Zoom In
@@ -77,7 +72,7 @@ function Home() {
       <Button
         color="primary"
         handleClick={() => {
-          socket.emit("gesture", { value: "zoomOut" });
+          socket.send("zoomOut");
         }}
       >
         Zoom Out
@@ -85,7 +80,7 @@ function Home() {
       <Button
         color="primary"
         handleClick={() => {
-          socket.emit("gesture", { value: "pointingUp" });
+          socket.send("pointingUp");
         }}
       >
         Pointing Up
@@ -93,7 +88,7 @@ function Home() {
       <Button
         color="primary"
         handleClick={() => {
-          socket.emit("gesture", { value: "pointingDown" });
+          socket.send("pointingDown");
         }}
       >
         Pointing Down
@@ -101,7 +96,7 @@ function Home() {
       <Button
         color="primary"
         handleClick={() => {
-          socket.emit("gesture", { value: "fist" });
+          socket.send("fist");
         }}
       >
         Fist
@@ -109,7 +104,7 @@ function Home() {
       <Button
         color="primary"
         handleClick={() => {
-          socket.emit("gesture", { value: "victory" });
+          socket.send("victory");
         }}
       >
         Victory
