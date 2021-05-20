@@ -1,0 +1,11 @@
+{
+  "workbench.preferredHighContrastColorTheme": "Default Dark+",
+  "workbench.preferredLightColorTheme": "Default Dark+",
+  "workbench.colorTheme": "Monokai",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "prettier.printWidth": 100,
+  "files.trimTrailingWhitespace": true
+}
