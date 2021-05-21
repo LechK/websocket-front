@@ -3,7 +3,7 @@ import * as S from "./Home.style";
 import { Button } from "../../components";
 
 function Home() {
-  const socket = new WebSocket("ws://localhost:8080");
+  const socket = React.useMemo(() => new WebSocket("ws://localhost:8080"), []);
 
   const [connected, setConnected] = useState("");
   //respone
@@ -11,14 +11,14 @@ function Home() {
     socket.addEventListener("open", function (event) {
       setConnected("Connected to server");
     });
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     socket.addEventListener("message", function (e) {
       const obj = e.data;
       console.log(obj);
     });
-  }, []);
+  }, [socket]);
 
   return (
     <S.Body>
