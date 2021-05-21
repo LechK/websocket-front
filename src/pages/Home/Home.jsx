@@ -14,11 +14,11 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    socket.onmessage = function (e) {
+    socket.addEventListener("message", function (e) {
       const obj = e.data;
       console.log(obj);
-    };
-  }, [socket]);
+    });
+  }, []);
 
   return (
     <S.Body>
@@ -27,6 +27,23 @@ function Home() {
       ) : (
         <h5>Not connected!</h5>
       )}
+      {/*POPUPS */}{" "}
+      <Button
+        color="secondary"
+        handleClick={() => {
+          socket.send("poi");
+        }}
+      >
+        POI
+      </Button>
+      <Button
+        color="secondary"
+        handleClick={() => {
+          socket.send("incomingCall");
+        }}
+      >
+        INCOMING CALL
+      </Button>
       {/* DYNAMIC GESTURES */}
       <Button
         color="primary"
